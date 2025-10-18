@@ -1,4 +1,5 @@
-import { PipeTransform, Injectable, ArgumentMetadata } from '@nestjs/common';
+import { PipeTransform, Injectable, ArgumentMetadata, HttpException, HttpCode, HttpStatus } from '@nestjs/common';
+import { HttpStatusCode } from 'axios';
 import { HttpResponse } from 'src/utils';
 import z from 'zod';
 
@@ -12,7 +13,11 @@ export class ZodValidationPipe implements PipeTransform {
             return parsedValue;
         } catch (error) {
             if (error instanceof z.ZodError) {
-                return HttpResponse.badRequest('There was somethis wrong in the payoad.', error.issues)
+                throw new HttpException({
+                    code: HttpStatusCode.BadRequest,
+                    message: 'There was somethis wrong in the payload.',
+                    result: error.issues,
+                }, HttpStatus.OK)
             }
 
             return HttpResponse.internalServerError();
