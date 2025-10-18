@@ -5,7 +5,6 @@ import { PostgresModule } from './postgres';
 @Global()
 @Module({
   imports: [PostgresModule, RedisModule],
-  controllers: [],
-  providers: [],
+  exports: [RedisModule]
 })
-export class ConnectionModule {}
+export class ConnectionModule { }

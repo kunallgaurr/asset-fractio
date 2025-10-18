@@ -1,7 +1,8 @@
 import { Module } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { UserMasterEntity } from 'src/module/user';
+import { EmailLogEntity, EmailTemplateEntity, SmsLogEntity, SmsTemplateEntity } from 'src/module/communication/entities';
+import { UserLoginHistoryEntity, UserMasterEntity } from 'src/module/user/entities';
 import { constants } from 'src/utils';
 
 @Module({
@@ -15,13 +16,18 @@ import { constants } from 'src/utils';
                 username: configService.get<string>('DB_USERNAME'),
                 password: configService.get<string>('DB_PASSWORD'),
                 database: configService.get<string>('DB_NAME'),
-                entities: [UserMasterEntity],
+                entities: [
+                    UserMasterEntity, 
+                    UserLoginHistoryEntity,
+                    EmailTemplateEntity,
+                    EmailLogEntity,
+                    SmsTemplateEntity,
+                    SmsLogEntity
+                ],
                 synchronize: constants.SYNC_DB,
                 ssl: true       
             }),
         }),
-    ],
-    controllers: [],
-    providers: [],
+    ]
 })
 export class PostgresModule { }
