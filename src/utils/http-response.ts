@@ -9,6 +9,7 @@ export enum HttpStatusCode {
     NOT_FOUND = 'AF_NF_404',             // 404 Not Found
     CONFLICT = 'AF_CF_409',              // 409 Conflict
     UNPROCESSABLE_ENTITY = 'AF_UE_422',  // 422 Unprocessable Entity
+    TOO_MANY_REQUESTS = 'AF_TM_429',     // 429 Too Many Requests
 
     INTERNAL_SERVER_ERROR = 'AF_SE_500', // 500 Internal Server Error
     BAD_GATEWAY = 'AF_BG_502',           // 502 Bad Gateway
@@ -26,6 +27,7 @@ export const responseMessage: Record<HttpStatusCode, string> = {
   [HttpStatusCode.NOT_FOUND]: 'The requested resource was not found.',
   [HttpStatusCode.CONFLICT]: 'A conflict occurred with the current state of the resource.',
   [HttpStatusCode.UNPROCESSABLE_ENTITY]: 'The request was well-formed but contains semantic errors.',
+  [HttpStatusCode.TOO_MANY_REQUESTS]: 'Too many requests. Please try again later.',
 
   [HttpStatusCode.INTERNAL_SERVER_ERROR]: 'An unexpected error occurred on the server.',
   [HttpStatusCode.BAD_GATEWAY]: 'The server received an invalid response from the upstream server.',
@@ -33,7 +35,7 @@ export const responseMessage: Record<HttpStatusCode, string> = {
 };
 
 export class HttpResponse {
-  public static success<T>(message?: string, result?: T) {
+  public static success<T>(result?: T, message?: string) {
     return {
       code: HttpStatusCode.SUCCESS,
       message: message ?? responseMessage[HttpStatusCode.SUCCESS],
@@ -41,7 +43,7 @@ export class HttpResponse {
     };
   }
 
-  public static created<T>(message?: string, result?: T) {
+  public static created<T>(result?: T, message?: string) {
     return {
       code: HttpStatusCode.CREATED,
       message: message ?? responseMessage[HttpStatusCode.CREATED],
@@ -87,6 +89,10 @@ export class HttpResponse {
 
   public static unprocessableEntity<T>(message?: string, result?: T) {
     return this.error(HttpStatusCode.UNPROCESSABLE_ENTITY, message, result);
+  }
+
+  public static tooManyRequests<T>(message?: string, result?: T) {
+    return this.error(HttpStatusCode.TOO_MANY_REQUESTS, message, result);
   }
 
   public static internalServerError<T>(message?: string, result?: T) {
