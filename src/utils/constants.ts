@@ -5,7 +5,9 @@ const PROVIDERS = {
 const REDIS_KEYS = {
     USERNAME_SET: 'af:username:set',
     EMAIL_SET: 'af:email:set',
-    USER_DATA: 'af:user:' // user id
+    USER_DATA: 'af:user:', // user id
+    USER_SETTINGS: 'af:user-settings:', // user Id
+    USER_PREFERENCES: 'af:user-preferences:' // user id
 }
 
 const EVENT_NAMES = {
@@ -22,11 +24,16 @@ const EVENT_NAMES = {
     
     SETTINGS_CREATE: 'settings.create',
     PREFERENCES_CREATE: 'preferences.create',
+
+    USER_UPDATED: 'user.updated',
+    USER_EMAIL_UPDATED: 'user.email_updated',
+    USER_USERNAME_UPDATED: 'user.username_updated',
+    USER_PHONE_NUMBER_UPDATED: 'user.phone_number_updated'
 }
 
 export const constants = {
     SYNC_DB: true,
-    GLOBAL_LIMIT_THRESHOLD: 5,
+    GLOBAL_LIMIT_THRESHOLD: 20,
     PROVIDERS,
     REDIS_KEYS,
     EVENT_NAMES  
