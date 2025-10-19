@@ -13,8 +13,8 @@ async function bootstrap() {
     process.exit(1);
   })
 
-  process.on('unhandledRejection', () => {
-    console.log('Shutting down due to an unhandledRejection')
+  process.on('unhandledRejection', (error) => {
+    console.log('Shutting down due to an unhandledRejection');
     process.exit(1);
   })
 
