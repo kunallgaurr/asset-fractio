@@ -1,6 +1,9 @@
 import z from "zod";
 import { UserType } from "./entities/user-master.entity";
 
+export const usernameRegex = /^[a-zA-Z0-9_]{3,30}$/;
+export const phoneRegex = /^\+\d{1,4}\d{7,15}$/;
+
 // Signup schema
 export const signupSchema = z.object({
   type: z.enum(UserType),
@@ -11,7 +14,7 @@ export const signupSchema = z.object({
   username: z.string()
     .min(3, { message: 'Username must be at least 3 characters long' })
     .max(30, { message: 'Username must be at most 30 characters long' })
-    .regex(/^[a-zA-Z0-9_]+$/, { message: 'Username can only contain letters, numbers, and underscores' }),
+    .regex(usernameRegex, { message: 'Username can only contain letters, numbers, and underscores' }),
 
   email: z.string()
     .email({ message: 'Invalid email address' }),
@@ -36,8 +39,23 @@ export const signupSchema = z.object({
 export type TSignup = z.infer<typeof signupSchema>
 
 export const signinSchema = z.object({
-    uid: z.string(),
-    password: z.string(),
+  uid: z.string().refine((val) => {
+    return (
+      z.string().email().safeParse(val).success ||  // Email
+      usernameRegex.test(val) ||                    // Username
+      phoneRegex.test(val)                          // Phone number with country code
+    );
+  }, {
+    message: 'UID must be a valid email, username, or phone number with country code',
+  }),
+  
+  password: z.string()
+    .min(8, { message: 'Password must be at least 8 characters long' })
+    .regex(/[A-Z]/, { message: 'Password must contain at least one uppercase letter' })
+    .regex(/[a-z]/, { message: 'Password must contain at least one lowercase letter' })
+    .regex(/\d/, { message: 'Password must contain at least one number' })
+    .regex(/[\W_]/, { message: 'Password must contain at least one special character' }),
 });
 
 export type TSignin = z.infer<typeof signinSchema>; 
+

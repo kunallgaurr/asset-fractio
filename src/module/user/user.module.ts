@@ -1,19 +1,18 @@
 import { Module } from "@nestjs/common";
-import { UserController } from "./user.controller";
-import { UserService } from "./services/user.service";
-import { UserRepository } from "./repositories/user.repository";
-import { UserMasterEntity } from "./entities/user-master.entity";
 import { TypeOrmModule } from "@nestjs/typeorm";
 import { RedisModule } from "src/connection";
-import { UserLoginHistoryEntity } from "./entities";
-import { UserLoginHistoryRepository } from "./repositories/user-login-history.repository";
-import { UserLoginHistoryService } from "./services/user-login-history.service";
+import { UserController, UserLoginHistoryController } from "./controller";
+import { UserMasterEntity , UserLoginHistoryEntity, UserUpdateLogs} from "./entities";
+import { UserLoginHistoryRepository, UserRepository, UserUpdateLogsRepository } from "./repositories";
+import { UserLoginHistoryService, UserService } from "./services";
+import { UserUpdateLogsService } from "./services/user-update-logs.service";
 
 @Module({
     imports: [
         TypeOrmModule.forFeature([
             UserMasterEntity,
-            UserLoginHistoryEntity
+            UserLoginHistoryEntity,
+            UserUpdateLogs
         ]),
         RedisModule
     ],
@@ -22,8 +21,13 @@ import { UserLoginHistoryService } from "./services/user-login-history.service";
         UserService, 
         UserRepository,
         UserLoginHistoryRepository,
-        UserLoginHistoryService
+        UserLoginHistoryService,
+        UserUpdateLogsRepository,
+        UserUpdateLogsService
     ],
-    controllers: [UserController]
+    controllers: [
+        UserController, 
+        UserLoginHistoryController
+    ]
 })
 export class UserModule { };
