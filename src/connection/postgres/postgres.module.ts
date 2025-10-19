@@ -2,7 +2,8 @@ import { Module } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { EmailLogEntity, EmailTemplateEntity, SmsLogEntity, SmsTemplateEntity } from 'src/module/communication/entities';
-import { UserLoginHistoryEntity, UserMasterEntity } from 'src/module/user/entities';
+import { UserPreferencesEntity, UserSettingsEntity } from 'src/module/settings-and-preferences/entities';
+import { UserLoginHistoryEntity, UserMasterEntity, UserUpdateLogs } from 'src/module/user/entities';
 import { constants } from 'src/utils';
 
 @Module({
@@ -17,15 +18,18 @@ import { constants } from 'src/utils';
                 password: configService.get<string>('DB_PASSWORD'),
                 database: configService.get<string>('DB_NAME'),
                 entities: [
-                    UserMasterEntity, 
+                    UserMasterEntity,
                     UserLoginHistoryEntity,
                     EmailTemplateEntity,
                     EmailLogEntity,
                     SmsTemplateEntity,
-                    SmsLogEntity
+                    SmsLogEntity,
+                    UserPreferencesEntity,
+                    UserSettingsEntity,
+                    UserUpdateLogs
                 ],
                 synchronize: constants.SYNC_DB,
-                ssl: true       
+                ssl: true
             }),
         }),
     ]
