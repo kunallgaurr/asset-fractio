@@ -48,7 +48,7 @@ export const signinSchema = z.object({
   }, {
     message: 'UID must be a valid email, username, or phone number with country code',
   }),
-  
+
   password: z.string()
     .min(8, { message: 'Password must be at least 8 characters long' })
     .regex(/[A-Z]/, { message: 'Password must contain at least one uppercase letter' })
@@ -57,7 +57,13 @@ export const signinSchema = z.object({
     .regex(/[\W_]/, { message: 'Password must contain at least one special character' }),
 });
 
-export type TSignin = z.infer<typeof signinSchema>; 
+export type TSignin = z.infer<typeof signinSchema>;
+
+export const fetchUserSchema = z.object({
+  userId: z.number().int().positive(),
+});
+
+export type TFetchUser = z.infer<typeof fetchUserSchema>;
 
 // Base schema for optional fields
 export const updateUserSchema = z.object({
@@ -82,35 +88,35 @@ export const updateUserSchema = z.object({
   newPassword: z.string().min(6).optional(),
   confirmNewPassword: z.string().min(6).optional()
 })
-.superRefine((data, ctx) => {
-  const { password, newPassword, confirmNewPassword } = data;
+  .superRefine((data, ctx) => {
+    const { password, newPassword, confirmNewPassword } = data;
 
-  if (password) {
-    if (!newPassword || !confirmNewPassword) {
-      ctx.addIssue({
-        path: ['newPassword'],
-        code: z.ZodIssueCode.custom,
-        message: 'New password and confirm password are required when changing password.',
-      });
+    if (password) {
+      if (!newPassword || !confirmNewPassword) {
+        ctx.addIssue({
+          path: ['newPassword'],
+          code: z.ZodIssueCode.custom,
+          message: 'New password and confirm password are required when changing password.',
+        });
 
-      ctx.addIssue({
-        path: ['confirmNewPassword'],
-        code: z.ZodIssueCode.custom,
-        message: 'New password and confirm password are required when changing password.',
-      });
+        ctx.addIssue({
+          path: ['confirmNewPassword'],
+          code: z.ZodIssueCode.custom,
+          message: 'New password and confirm password are required when changing password.',
+        });
+      }
+
+      if (newPassword && confirmNewPassword && newPassword !== confirmNewPassword) {
+        ctx.addIssue({
+          path: ['confirmNewPassword'],
+          code: z.ZodIssueCode.custom,
+          message: 'New password and confirm password do not match.',
+        });
+      }
     }
+  });
 
-    if (newPassword && confirmNewPassword && newPassword !== confirmNewPassword) {
-      ctx.addIssue({
-        path: ['confirmNewPassword'],
-        code: z.ZodIssueCode.custom,
-        message: 'New password and confirm password do not match.',
-      });
-    }
-  }
-});
-
-export type TUpdateUser = z.infer<typeof updateUserSchema>; 
+export type TUpdateUser = z.infer<typeof updateUserSchema>;
 
 
 
