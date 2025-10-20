@@ -88,7 +88,6 @@ export class RedisService {
             if(typeof value === 'boolean') dataToSave[key] = value.toString();
             if(typeof value === 'object') dataToSave[key] = JSON.parse(value);
             if(Array.isArray(val)) JSON.parse(value);
-            if(typeof value === 'number') dataToSave[key] = value.toString();
         }
 
         return await Promise.all([
@@ -138,6 +137,19 @@ export class RedisService {
      */
     async get(key: string) {
         return await this.client.get(key);
+    }
+
+    /**
+     * Increment a numeric value from Redis
+     * @param key - The key to retrieve
+     * @returns Promise<number> - The string value or null if key doesn't exist
+     */
+    async incr(key: string) {
+        return await this.client.incr(key);
+    }
+
+    async expire(key: string, expiry: number) {
+        return await this.client.expire(key, expiry);
     }
 
     // JSON Operations
