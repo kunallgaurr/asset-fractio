@@ -3,6 +3,15 @@ import { JwtService } from "@nestjs/jwt";
 import { NextFunction, Request, Response } from "express";
 import { HttpResponse } from "src/utils";
 
+declare module 'express' {
+  interface Request {
+    user?: {
+      id: string;
+      role: string;
+    };
+  }
+}
+
 @Injectable()
 export class AuthenticationMiddleware implements NestMiddleware {
     constructor(
@@ -39,21 +48,11 @@ export class AuthenticationMiddleware implements NestMiddleware {
             const userId = payload.id;
             const userRole = payload.role || 'USER'; // Default role if not present
 
-            // // Append user information to request object for use in controllers/services
-            // req['user'] = {
-            //     id: userId,
-            //     role: userRole
-            // };
-
-            // Also append to query params for backward compatibility
-            if (req.method === 'GET') {
-                console.log('method is: ', req.method)
-                if (!req.query.userId) {
-                    console.log(req.query);
-                    req.query.userId = userId.toString();
-                    console.log(req.query);
-                };
-            }
+            // Append user information to request object for use in controllers/services
+            req['user'] = {
+                id: userId,
+                role: userRole
+            };
 
             if (['POST', 'PUT', 'DELETE'].includes(req.method)) {
                 // Initialize req.body if it doesn't exist
@@ -64,8 +63,7 @@ export class AuthenticationMiddleware implements NestMiddleware {
                 req.body.userId = userId;
             }
 
-            req.query.userRole = userRole;
-
+            console.log(req.query);
             console.log(`Authorized user - ID: ${userId}, Role: ${userRole}`);
             next();
         } catch (error) {

@@ -5,22 +5,25 @@ import { constants, HttpResponse } from "src/utils";
 
 @Injectable()
 export class RateLimiter implements NestMiddleware {
-    constructor(
-        private readonly redisService: RedisService
-    ) {}
-    
-    async use(req: Request, res: Response, next: NextFunction) {
-        const key = req.originalUrl.split('/').slice(1).join(':') + ':' + req.ip;
+  constructor(private readonly redisService: RedisService) {}
 
-        const requests = await this.redisService.get(key);
-        const count = Number(requests) + 1;
-        if(count > constants.GLOBAL_LIMIT_THRESHOLD) {
-            await this.redisService.set(key, count.toString(), 3600);
-            return res.status(200).json(HttpResponse.tooManyRequests());
-        }
+  async use(req: Request, res: Response, next: NextFunction) {
+    const endpoint = req.originalUrl.split('?')[0].split('/').slice(1).join(':');
+    const key = `rate:${endpoint}:${req.ip}`;
+    const limit = constants.GLOBAL_LIMIT_THRESHOLD || 100; // fallback default
+    const windowInSeconds = 3600; // 1 hour
 
-        // Set with TTL of 1 hour (3600 seconds)
-        await this.redisService.set(key, count.toString(), 3600);
-        next();
+    const current = await this.redisService.incr(key);
+
+    if (current === 1) {
+      // First hit, set expiration
+      await this.redisService.expire(key, windowInSeconds);
     }
+
+    if (current > limit) {
+      return res.status(200).json(HttpResponse.tooManyRequests()); // Use proper status code
+    }
+
+    next();
+  }
 }
