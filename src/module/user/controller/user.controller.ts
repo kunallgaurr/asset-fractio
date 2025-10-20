@@ -1,7 +1,7 @@
 import { Body, Controller, Get, Header, Headers, Param, ParseIntPipe, Post, Put, Query, UsePipes } from "@nestjs/common";
 import { UserService } from "../services/user.service";
 import { signinSchema, signupSchema, type TSignin, type TSignup } from "../user.dto";
-import { ZodValidationPipe } from "src/helpers/pipes";
+import { User, ZodValidationPipe } from "src/helpers";
 
 /**
  * User Controller - Handles all user-related HTTP endpoints
@@ -115,8 +115,8 @@ export class UserController {
      * - Returns cached data for subsequent requests
      */
     @Get('/fetch-user')
-    async getUser(@Query() query) {
-        return await this.userService.getUser(query)
+    async getUser(@User('id') id: ParseIntPipe, @Query() query) {
+        return await this.userService.getUser({userId: id, ...query})
     }
 
     @Put('/update-user')

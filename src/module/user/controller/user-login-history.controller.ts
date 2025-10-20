@@ -10,6 +10,5 @@ export class UserLoginHistoryController {
     @Get('fetch-history')
     async fetchHistory(@Query() query) {
         return await this.userLoginHistory.getLogs(query);
-
     }
 }
