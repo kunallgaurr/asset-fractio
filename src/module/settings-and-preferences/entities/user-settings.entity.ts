@@ -1,4 +1,4 @@
-import { Column, CreateDateColumn, Entity, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
+import { Column, CreateDateColumn, Entity, PrimaryColumn, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
 
 export enum NotificationType {
     EMAIL = 'EMAIL',
@@ -52,14 +52,7 @@ export enum Timezone {
 
 @Entity('user_settings')
 export class UserSettingsEntity {
-    @PrimaryGeneratedColumn({
-        name: 'id',
-        type: 'int',
-        unsigned: true
-    })
-    id: number;
-
-    @Column({
+    @PrimaryColumn({
         name: 'user_id',
         type: 'int',
         unsigned: true,
@@ -158,7 +151,7 @@ export class UserSettingsEntity {
     @Column({
         name: 'profile_visibility',
         type: 'enum',
-        enum: ['PUBLIC', 'PRIVATE', 'FRIENDS_ONLY'],
+        enum: ['PUBLIC', 'PRIVATE'],
         default: 'PRIVATE'
     })
     profileVisibility: string;

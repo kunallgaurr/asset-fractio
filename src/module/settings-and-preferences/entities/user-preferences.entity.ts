@@ -1,4 +1,4 @@
-import { Column, CreateDateColumn, Entity, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
+import { Column, CreateDateColumn, Entity, PrimaryColumn, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
 
 export enum AssetType {
     IFO_PENDING = 'IFO PENDING',
@@ -27,14 +27,7 @@ export enum PrivacyLevel {
 
 @Entity('user_preferences')
 export class UserPreferencesEntity {
-    @PrimaryGeneratedColumn({
-        name: 'id',
-        type: 'int',
-        unsigned: true
-    })
-    id: number;
-
-    @Column({
+    @PrimaryColumn({
         name: 'user_id',
         type: 'int',
         unsigned: true,

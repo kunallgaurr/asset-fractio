@@ -68,8 +68,6 @@ export class SettingsService {
         try {
             const { userId } = payload;
 
-            console.log(payload);
-
             const key = constants.REDIS_KEYS.USER_SETTINGS + userId;
             let settings: any = (await this.redisService.jGet(key, '$'))?.[0];
 
@@ -93,7 +91,6 @@ export class SettingsService {
 
             return HttpResponse.success(settings);
         } catch (error) {
-            console.log(error);
             return HttpResponse.internalServerError()
         }
     }
