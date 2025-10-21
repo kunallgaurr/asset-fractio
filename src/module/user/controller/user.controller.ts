@@ -9,7 +9,8 @@ import {
     updateUserSchema, 
     type TFetchUser 
 } from "../user.dto";
-import { User, ZodValidationPipe } from "src/helpers";
+import { User } from "src/helpers";
+import { ZodValidationPipe } from "src/helpers/pipes";
 
 /**
  * User Controller - Handles all user-related HTTP endpoints
