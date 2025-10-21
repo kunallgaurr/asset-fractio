@@ -1,6 +1,7 @@
 import { Module } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
+import { AddressEntity } from 'src/module/address';
 import { EmailLogEntity, EmailTemplateEntity, SmsLogEntity, SmsTemplateEntity } from 'src/module/communication/entities';
 import { UserPreferencesEntity, UserSettingsEntity } from 'src/module/settings-and-preferences/entities';
 import { UserLoginHistoryEntity, UserMasterEntity, UserUpdateLogs } from 'src/module/user/entities';
@@ -26,7 +27,8 @@ import { constants } from 'src/utils';
                     SmsLogEntity,
                     UserPreferencesEntity,
                     UserSettingsEntity,
-                    UserUpdateLogs
+                    UserUpdateLogs,
+                    AddressEntity
                 ],
                 synchronize: constants.SYNC_DB,
                 ssl: true
