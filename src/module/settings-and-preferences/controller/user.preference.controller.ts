@@ -1,7 +1,7 @@
 import { Body, Controller, Get, Put, Query, UsePipes } from "@nestjs/common";
 import { PreferencesService } from "../services";
 import { type TUpdatePreference, updatePreferencesSchema } from "../settings-and-preferences.dto";
-import { ZodValidationPipe } from "src/helpers";
+import { ZodValidationPipe } from "src/helpers/pipes";
 
 @Controller('preferences')
 export class PreferencesController {

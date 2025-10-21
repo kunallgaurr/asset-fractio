@@ -1,7 +1,8 @@
 import { Body, Controller, Get, ParseIntPipe, Put, Query, UsePipes } from "@nestjs/common";
 import { SettingsService } from "../services";
-import { User, ZodValidationPipe } from "src/helpers";
+import { User } from "src/helpers";
 import { type TUpdateSettings, updateSettingsSchema } from "../settings-and-preferences.dto";
+import { ZodValidationPipe } from "src/helpers/pipes";
 
 @Controller('settings')
 export class SettingsController {
