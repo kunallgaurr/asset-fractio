@@ -30,7 +30,7 @@ import { AuthenticationMiddleware } from 'src/helpers/middleware';
     SettingsAndPreferencesModule
   ],
   controllers: [],
-  providers: [RateLimiter],
+  providers: [],
 })
 export class AppModule implements NestModule {
   configure(consumer: MiddlewareConsumer) {
