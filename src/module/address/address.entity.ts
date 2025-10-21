@@ -122,28 +122,12 @@ export class AddressEntity {
     landmark: string;
 
     @Column({
-        name: 'locality',
-        type: 'varchar',
-        length: 100,
-        nullable: true
-    })
-    locality: string;
-
-    @Column({
         name: 'city',
         type: 'varchar',
         length: 100,
         nullable: false
     })
     city: string;
-
-    @Column({
-        name: 'district',
-        type: 'varchar',
-        length: 100,
-        nullable: false
-    })
-    district: string;
 
     @Column({
         name: 'state',
@@ -168,22 +152,6 @@ export class AddressEntity {
         default: 'India'
     })
     country: string;
-
-    @Column({
-        name: 'block',
-        type: 'varchar',
-        length: 100,
-        nullable: true
-    })
-    block: string;
-
-    @Column({
-        name: 'is_active',
-        type: 'boolean',
-        default: true
-    })
-    isActive: boolean;
-
 
     @CreateDateColumn({
         name: 'created_at',
