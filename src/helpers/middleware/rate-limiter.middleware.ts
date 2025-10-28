@@ -1,6 +1,6 @@
 import { Injectable, NestMiddleware } from "@nestjs/common";
 import { NextFunction, Request, Response } from "express";
-import { RedisService } from "src/connection";
+import { RedisService } from "src/connection/redis";
 import { constants, HttpResponse } from "src/utils";
 
 @Injectable()
@@ -13,16 +13,16 @@ export class RateLimiter implements NestMiddleware {
     const limit = constants.GLOBAL_LIMIT_THRESHOLD || 100; // fallback default
     const windowInSeconds = 3600; // 1 hour
 
-    const current = await this.redisService.incr(key);
+    // const current = await this.redisService.incr(key);
 
-    if (current === 1) {
+    // if (current === 1) {
       // First hit, set expiration
-      await this.redisService.expire(key, windowInSeconds);
-    }
+      // await this.redisService.expire(key, windowInSeconds);
+    // }
 
-    if (current > limit) {
-      return res.status(200).json(HttpResponse.tooManyRequests()); // Use proper status code
-    }
+    // if (current > limit) {
+    //   return res.status(200).json(HttpResponse.tooManyRequests()); // Use proper status code
+    // }
 
     next();
   }

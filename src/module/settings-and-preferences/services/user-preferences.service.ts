@@ -1,5 +1,5 @@
 import { Injectable } from "@nestjs/common";
-import { RedisService } from "src/connection";
+import { RedisService } from "src/connection/redis";
 import { constants, HttpResponse } from "src/utils";
 import { OnEvent } from "@nestjs/event-emitter";
 import {

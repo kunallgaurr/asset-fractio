@@ -1,11 +1,11 @@
 import { Module } from "@nestjs/common";
 import { TypeOrmModule } from "@nestjs/typeorm";
-import { RedisModule } from "src/connection";
-import { UserController, UserLoginHistoryController } from "./controller";
-import { UserMasterEntity , UserLoginHistoryEntity, UserUpdateLogs} from "./entities";
+import { UserLoginHistoryEntity, UserMasterEntity, UserUpdateLogs } from "./entities";
 import { UserLoginHistoryRepository, UserRepository, UserUpdateLogsRepository } from "./repositories";
-import { UserLoginHistoryService, UserService } from "./services";
 import { UserUpdateLogsService } from "./services/user-update-logs.service";
+import { UserLoginHistoryService, UserService } from "./services";
+import { UserController, UserLoginHistoryController } from "./controller";
+import { RedisModule } from "src/connection/redis";
 
 @Module({
     imports: [
@@ -14,20 +14,19 @@ import { UserUpdateLogsService } from "./services/user-update-logs.service";
             UserLoginHistoryEntity,
             UserUpdateLogs
         ]),
-        RedisModule
+        RedisModule        
     ],
-    exports: [],
     providers: [
-        UserService, 
         UserRepository,
         UserLoginHistoryRepository,
-        UserLoginHistoryService,
         UserUpdateLogsRepository,
-        UserUpdateLogsService
+        UserUpdateLogsService,
+        UserLoginHistoryService,
+        UserService
     ],
     controllers: [
-        UserController, 
+        UserController,
         UserLoginHistoryController
     ]
 })
-export class UserModule { };
+export class UserModule {}

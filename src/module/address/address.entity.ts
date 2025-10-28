@@ -49,7 +49,7 @@ export enum IndianState {
     PUDUCHERRY = 'PUDUCHERRY'
 }
 
-@Entity('addresses')
+@Entity('address')
 export class AddressEntity {
     @PrimaryGeneratedColumn({
         name: 'id',

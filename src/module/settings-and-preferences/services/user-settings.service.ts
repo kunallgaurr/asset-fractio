@@ -1,5 +1,5 @@
 import { Currency, Language, Theme, Timezone, UserSettingsEntity } from "../entities";
-import { RedisService } from "src/connection";
+import { RedisService } from "src/connection/redis";
 import { constants, HttpResponse } from "src/utils";
 import { OnEvent } from "@nestjs/event-emitter";
 import { UserPreferencesRepository, UserSettingsRepository } from "../repositories";

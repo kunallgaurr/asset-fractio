@@ -125,11 +125,11 @@ export class UserController {
      */
     @Get('/fetch-user')
     async getUser(
-        @User('id') id: ParseIntPipe,
+        @User('id') userId: string,
         @Query() query: TFetchUser
     ) {
         return await this.userService.getUser({ 
-            userId: query.userId ? query.userId : id 
+            userId: query.userId ? query.userId : userId 
         });
     }
 

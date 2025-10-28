@@ -6,7 +6,7 @@ import { constants } from "src/utils";
 export class RedisService {
     constructor(
         @Inject(constants.PROVIDERS.REDIS_CONNECTION)
-        private readonly client: RedisClientType
+        private client: RedisClientType
     ) { }
 
     // SET Operations

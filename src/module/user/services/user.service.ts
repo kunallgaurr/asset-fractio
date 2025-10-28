@@ -1,7 +1,7 @@
 import { Injectable } from "@nestjs/common";
 import { UserRepository } from "../repositories";
 import { TSignin, TSignup } from "../user.dto";
-import { RedisService } from "src/connection";
+import { RedisService } from "src/connection/redis";
 import { constants, HttpResponse } from "src/utils";
 import { UserMasterEntity, UserRole } from "../entities";
 import { EventEmitter2 } from "@nestjs/event-emitter";
@@ -15,7 +15,9 @@ export class UserService {
         private readonly redisService: RedisService,
         private readonly eventEmitter: EventEmitter2,
         private readonly jwtService: JwtService
-    ) { }
+    ) {
+        console.log(this.redisService);
+    }
 
     /**
      * User Registration Service
