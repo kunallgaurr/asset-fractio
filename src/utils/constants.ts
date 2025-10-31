@@ -28,13 +28,25 @@ const EVENT_NAMES = {
     USER_UPDATED: 'user.updated',
     USER_EMAIL_UPDATED: 'user.email_updated',
     USER_USERNAME_UPDATED: 'user.username_updated',
-    USER_PHONE_NUMBER_UPDATED: 'user.phone_number_updated'
+    USER_PHONE_NUMBER_UPDATED: 'user.phone_number_updated',
+
+    ADD_ASSET: 'asset.created'
 }
+
+const IFO_PRICE_PARTS = {
+    INITIAL: 0.1,
+    FINAL: 0.9
+}
+
+const GST_PERCENTAGE = 18
 
 export const constants = {
     SYNC_DB: true,
     GLOBAL_LIMIT_THRESHOLD: 20,
     PROVIDERS,
     REDIS_KEYS,
-    EVENT_NAMES  
+    EVENT_NAMES,
+    IFO_PRICE_PARTS,
+    GST_PERCENTAGE
+
 }
