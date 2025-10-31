@@ -13,6 +13,8 @@ import { AuthenticationMiddleware } from 'src/helpers/middleware';
 import { AddressModule } from './address';
 import { BankVerificationModule } from './bank-verification';
 import { AssetModule } from './asset';
+import { AppController } from './app.controller';
+import { AppService } from './app.service';
 
 @Module({
   imports: [
@@ -35,8 +37,8 @@ import { AssetModule } from './asset';
     BankVerificationModule,
     AssetModule
   ],
-  controllers: [],
-  providers: [],
+  controllers: [AppController],
+  providers: [AppService],
 })
 export class AppModule implements NestModule {
   configure(consumer: MiddlewareConsumer) {
