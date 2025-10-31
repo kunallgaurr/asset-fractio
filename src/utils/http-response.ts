@@ -39,7 +39,7 @@ export class HttpResponse {
     return {
       code: HttpStatusCode.SUCCESS,
       message: message ?? responseMessage[HttpStatusCode.SUCCESS],
-      result: result,
+      result: result ?? null,
     };
   }
 
