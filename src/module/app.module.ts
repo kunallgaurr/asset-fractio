@@ -1,5 +1,5 @@
 import { MiddlewareConsumer, Module, NestModule } from '@nestjs/common';
-import { ConfigModule, ConfigService } from '@nestjs/config';
+import { ConfigModule } from '@nestjs/config';
 import { EventEmitterModule } from '@nestjs/event-emitter';
 import { ConnectionModule } from '../connection';
 import { UserModule } from './user';
@@ -10,6 +10,9 @@ import { LoggerMiddleware } from 'src/helpers/middleware/logger.middleware';
 import { RateLimiter } from 'src/helpers/middleware/rate-limiter.middleware';
 import { SettingsAndPreferencesModule } from './settings-and-preferences';
 import { AuthenticationMiddleware } from 'src/helpers/middleware';
+import { AddressModule } from './address';
+import { BankVerificationModule } from './bank-verification';
+import { AssetModule } from './asset';
 
 @Module({
   imports: [
@@ -27,7 +30,10 @@ import { AuthenticationMiddleware } from 'src/helpers/middleware';
     }),
     UserModule,
     CommunicationModule,
-    SettingsAndPreferencesModule
+    SettingsAndPreferencesModule,
+    AddressModule,
+    BankVerificationModule,
+    AssetModule
   ],
   controllers: [],
   providers: [],
