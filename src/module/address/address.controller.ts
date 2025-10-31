@@ -1,7 +1,7 @@
 import { Body, Controller, Delete, Get, ParseIntPipe, Post, Put, Query, UsePipes } from "@nestjs/common";
 import { AddressService } from "./address.service";
 import { User } from "src/helpers";
-import { createAddressSchema, type TAddAddress } from "./address.dto";
+import { createAddressSchema, TUpdateAddress, updateAddressSchema, type TAddAddress } from "./address.dto";
 import { ZodValidationPipe } from "src/helpers/pipes";
 
 @Controller('address')
@@ -22,13 +22,14 @@ export class AddressController {
 
     @Post('add-address')
     @UsePipes(new ZodValidationPipe(createAddressSchema))
-    async addAddress(@Body() body: TAddAddress) {
-        return await this.address.addAddress(body);
+    async addAddress(@Body() body: TAddAddress, @User('id') id: ParseIntPipe) {
+        return await this.address.addAddress({ ...body, userId: id});
     }
 
     @Put('update-address')
-    async updateAddress(@Body() body) {
-        return await this.address.updateAddress(body);
+    @UsePipes(new ZodValidationPipe(updateAddressSchema))
+    async updateAddress(@Body() body: Partial<TUpdateAddress>, @User('id') id) {
+        return await this.address.updateAddress({ ...body, userId: id});
     }
 
     @Delete('delete-address')

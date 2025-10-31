@@ -2,13 +2,14 @@ import { Injectable } from "@nestjs/common";
 import { AddressRepository } from "./address.repository";
 import { HttpResponse } from "src/utils";
 import { IndianState } from "./address.entity";
+import { TUpdateAddress } from "./address.dto";
 
 @Injectable()
 export class AddressService {
     constructor(private readonly address: AddressRepository) { }
 
     getAllStates() {
-        return HttpResponse.success(Object.keys(IndianState))
+        return HttpResponse.success(Object.values(IndianState))
     }
 
     async addAddress(payload) {
@@ -27,7 +28,7 @@ export class AddressService {
                 }
             }
 
-            const address = this.address.save(payload);
+            const address = await this.address.save(payload);
             return HttpResponse.success(address);
         } catch (error) {
             console.log(error);
@@ -55,11 +56,11 @@ export class AddressService {
 
     async updateAddress(payload) {
         try {
-            const { isPrimary, userId } = payload;
+            const { userId, isPrimary } = payload;
 
             if (isPrimary) {
                 const addresses = await this.address.find({
-                    where: { userId: userId }
+                    where: { userId }
                 });
 
                 const primaryAddress = addresses.find(e => e.isPrimary);
